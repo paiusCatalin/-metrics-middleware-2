@@ -1,0 +1,30 @@
+global:
+  scrape_interval: 30s
+  evaluation_interval: 30s
+  external_labels:
+    type: "weld-galaxy"
+
+scrape_configs:
+
+  - job_name: "wg-live-metrics"
+    scrape_interval: 30s
+    metrics_path: /metrics #/custom-path-for-metrics-job
+    params: # add query parameters to metrics request path
+      mode: [ "live" ]
+    static_configs:
+      - targets: [ "<external-ip/service-name>:8080" ]
+
+  - job_name: "wg-static-metrics"
+    scrape_interval: 30s
+    metrics_path: /metrics #/custom-path-for-metrics-job
+    params: # add query parameters to metrics request path
+      mode: [ "static" ]
+    static_configs:
+      - targets: [ "<external-ip/service-name>:8080" ]
+
+
+  - job_name: "e-consent"
+    scrape_interval: 30s
+    #metrics_path: /custom-path-for-metrics - if needed
+    static_configs:
+      - targets: [ "<external-ip/service-name>:8081" ]
